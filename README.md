@@ -26,6 +26,10 @@
     - root/0rootroot
     - student/123qwe
 
+## System Architecture
+
+![OpenStack Minimal Architecture Network Layout](https://cloud.githubusercontent.com/assets/624975/8559854/f0591124-254c-11e5-8a5b-3f4c5a3a7d42.jpg)
+
 ## VirtualBox Host Network
 
 | Network name   | AP Address   |
