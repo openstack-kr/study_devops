@@ -21,6 +21,7 @@
 
 * VirtualBox with Extension Pack
 * OS : CentOS 7 Minimal
+   * Image Down: [Google Drive](https://drive.google.com/open?id=0B3onbEIPVlh3MkhRZjRzM1Y2QmM)
 * Account (ID/PW)
     - root/0rootroot
     - student/123qwe
