@@ -1,15 +1,14 @@
 *******************************************************
-
-* CodeTree 님께서 정리하신 OpenStack Kilo 설치 스크립트파일
-* Update : 2015-06-24
-
+* CodeTree 님께서 정리하신 OpenStack Kilo 설치 스크립트 파일
+* First upload : 2015-06-24
+* Last updated : 2015-07-08
 *******************************************************
 
 # TOC
 
 * [Virtualization](#virtualization)
     * [VirtualBox Host Network](#virtualBox-host-network)
-    * [Configure Node](#configure-node)
+    * [Node Configuration](#node-configuration)
     * [Node Specification](#node-specification)
 * [Script](#script)
     * [Start Script](#start-script)
@@ -18,9 +17,9 @@
 
 # Virtualization
 
-* VirtualBox
+* VirtualBox with Extension Pack
 * OS : CentOS 7 Minimal
-* Account(ID/PW)
+* Account (ID/PW)
     - root/0rootroot
     - student/123qwe
 
@@ -37,9 +36,9 @@
 | Host Network 5 | 88.33.33.1   |
 | Host Network 6 | 192.168.62.1 |
 
-`*` : 10.0.2.1 Network dml ruddn  Virtual Box에서 예약 사용중
+`*` : 10.0.2.1 Network의 경우  VirtualBox에서 NAT 용도로 예약 사용중
 
-## Configure Node
+## Node Configuration
 
 ```
 +----------------+------------------------------------------------------------------------+
@@ -55,7 +54,7 @@
 | Object Storage1|  NAT   |                |  10.0.0.51/24 |               | 10.0.4.51/24 |
 +----------------+--------+----------------+---------------+---------------+--------------+
 | HOST           |        | HOST Network0  | HOST Network1 | HOST Network2 |              |
-|                |        | 203.0.113.1/24 |  10.0.1.0/24  |  10.0.1.0/24  |              |
+|                |        | 203.0.113.0/24 |  10.0.1.0/24  |  10.0.1.0/24  |              |
 +----------------+--------+----------------+---------------+---------------+--------------+
 ```
 
