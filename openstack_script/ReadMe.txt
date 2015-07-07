@@ -4,7 +4,7 @@
 *******************************************************
 
 *OS : CentOS 7 Minimal
-*Account(ID/PW) : root/orootroot
+*Account(ID/PW) : root/0rootroot
                   student/123qwe
 
 *Virtualization : VMware 
