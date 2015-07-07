@@ -1,0 +1,81 @@
+#!/bin/bash
+#
+# Werite by: Jeon.sungwook 
+# Create Date : 2015-06-02
+# Update Date : 2015-06-02
+#
+# OS : CentOS-7-x86_64 1503-01
+# Node : controller 
+# Text : OPENSTACK INSTALLATION GUIDE FOR RED HAT ENTERPRISE LINUX 7, CENTOS 7, AND FEDORA 21  - KILO
+#
+# This script is to be installed and run on OpenStack Kilo
+# 
+# Set environment and declare global variables
+# ============================================================================================
+
+# Passwords
+DATABASE_ADMIN_PASS=pass_for_db
+ADMIN_PASS=pass_for_admin
+CEILOMETER_DBPASS=pass_for_db_ceilo
+CEILOMETER_PASS=pass_for_ceilo
+CINDER_DBPASS=pass_for_db_cinder
+CINDER_PASS=pass_for_cinder
+DASH_DBPASS=pass_for_db_dash
+DEMO_PASS=pass_for_demo
+GLANCE_DBPASS=pass_for_db_glance
+GLANCE_PASS=pass_for_glance
+HEAT_DBPASS=pass_for_db_heat
+HEAT_DOMAIN_PASS=pass_for_domain_heat
+HEAT_PASS=pass_for_heat
+KEYSTONE_DBPASS=pass_for_db_keystone
+NEUTRON_DBPASS=pass_for_db_neutron
+NEUTRON_PASS=pass_for_neutron
+NOVA_DBPASS=pass_for_db_nova 
+NOVA_PASS=pass_for_nova
+RABBIT_PASS=pass_for_mq
+SAHARA_DBPASS=pass_for_db_sahara
+SWIFT_PASS=pass_for_swift
+TROVE_DBPASS=pass_for_db_trove
+TROVE_PASS=pass_for_trove
+
+# Generate a random value to use as the administration token during initial configuration
+# openssl rand -hex 10 
+ADMIN_TOKEN=3986891fe916bc6dd730
+
+
+# neutron NETWORK 
+INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS=10.0.1.21
+INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS_NETWORK=10.0.1.21
+INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS_COMPUTE=10.0.1.31
+INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS_BLOCK1=10.0.1.41
+
+INSTANCE_MANAGEMENT_INTERFACE_IP_ADDRESS_CONTROLLER=10.0.0.11
+INSTANCE_MANAGEMENT_INTERFACE_IP_ADDRESS_NETWORK=10.0.0.21
+INSTANCE_MANAGEMENT_INTERFACE_IP_ADDRESS_COMPUTE=10.0.0.31
+INSTANCE_MANAGEMENT_INTERFACE_IP_ADDRESS_BLOCK1=10.0.0.41
+INSTANCE_MANAGEMENT_INTERFACE_IP_ADDRESS_OBJECT1=10.0.0.51
+
+
+INSTANCE_STORAGE_INTERFACE_IP_ADDRESS_CONTROLLER=10.0.4.11
+INSTANCE_STORAGE_INTERFACE_IP_ADDRESS_NETWORK=10.0.4.21
+INSTANCE_STORAGE_INTERFACE_IP_ADDRESS_COMPUTE=10.0.4.31
+INSTANCE_STORAGE_INTERFACE_IP_ADDRESS_BLOCK1=10.0.4.41
+INSTANCE_STORAGE_INTERFACE_IP_ADDRESS_OBJECT1=10.0.4.51
+
+NETWORK_EXTERNAL_IF_NAME=enp0s8
+
+OBJECT_NODE_DEVICE_NAME=sdb1
+OBJECT_NODE_DEVICE_WEIGHT=100
+
+OBJECT_NODE_DEVICE_NAME1=sdb1
+OBJECT_NODE_DEVICE_NAME2=sdc1
+
+# ETC
+METADATA_SECRET=metadata_secret
+TIME_ZONE=Asia/Seoul
+
+# 개별 옵션
+CODETREE_USE_LOCAL_REPOSITORY=0
+
+
+

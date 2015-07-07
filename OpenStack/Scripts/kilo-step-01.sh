@@ -32,19 +32,34 @@ VBoxManage unregistervm cent7-compute --delete
 VBoxManage controlvm cent7-block1 poweroff
 VBoxManage unregistervm cent7-block1 --delete
 
+
+# Init Block1 VM 
+VBoxManage controlvm cent7-object1 poweroff
+VBoxManage unregistervm cent7-object1 --delete
+
 # ============================================================================================
 # VirtualBox 저장 파일 Import 
 VBoxManage import ~/OpenStack/OpenStack_VM/cent7-controller.ova
 VBoxManage import ~/OpenStack/OpenStack_VM/cent7-network.ova
 VBoxManage import ~/OpenStack/OpenStack_VM/cent7-compute.ova
 VBoxManage import ~/OpenStack/OpenStack_VM/cent7-block1.ova
+VBoxManage import ~/OpenStack/OpenStack_VM/cent7-object1.ova
 
 # ============================================================================================
 # Run VM controller, network, compute
-vboxmanage startvm cent7-controller
-vboxmanage startvm cent7-network
-vboxmanage startvm cent7-compute
-vboxmanage startvm cent7-block1
+vboxmanage startvm cent7-controller --type headless
+vboxmanage startvm cent7-network --type headless
+vboxmanage startvm cent7-compute --type headless
+vboxmanage startvm cent7-block1  --type headless
+vboxmanage startvm cent7-object1 --type headless
+
+# virtualbox startvm cent7-controller
+# virtualbox startvm cent7-network
+# virtualbox startvm cent7-compute
+# virtualbox startvm cent7-block1
+# virtualbox startvm cent7-object1
+
+
 
 # ============================================================================================
 # Controller server ssh password 생략
@@ -64,9 +79,15 @@ sleep 1
 while ! ping -c1 10.0.0.31 &>/dev/null; do :; done
 sleep 1
 
-# Compute server ssh password 생략
+# Block1 server ssh password 생략
 # Server가 살아 날때 까지 대기
 while ! ping -c1 10.0.0.41 &>/dev/null; do :; done
+sleep 1
+
+
+# Object1 server ssh password 생략
+# Server가 살아 날때 까지 대기
+while ! ping -c1 10.0.0.51 &>/dev/null; do :; done
 sleep 1
 
 
@@ -78,17 +99,20 @@ ssh-copy-id student@10.0.0.31
 ssh-copy-id root@10.0.0.31
 ssh-copy-id student@10.0.0.41
 ssh-copy-id root@10.0.0.41
-
+ssh-copy-id student@10.0.0.51
+ssh-copy-id root@10.0.0.51
 
 ssh root@10.0.0.11 "hostnamectl set-hostname controller"
 ssh root@10.0.0.21 "hostnamectl set-hostname network"
 ssh root@10.0.0.31 "hostnamectl set-hostname compute"
 ssh root@10.0.0.41 "hostnamectl set-hostname block1"
+ssh root@10.0.0.51 "hostnamectl set-hostname object1"
 
 # ============================================================================================
 # Copy OpenStack Install Script Controller
 ssh student@10.0.0.11 "mkdir scripts"
 scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.11:~/scripts
+scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-2.*.controller.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-3.*.controller.sh  student@10.0.0.11:~/scripts
@@ -97,6 +121,7 @@ scp ~/OpenStack/Scripts/kilo-5.*.controller.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-6.*.controller.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-7.*.controller.sh  student@10.0.0.11:~/scripts
 scp ~/OpenStack/Scripts/kilo-8.*.controller.sh  student@10.0.0.11:~/scripts
+scp ~/OpenStack/Scripts/kilo-9.*.controller.sh  student@10.0.0.11:~/scripts
 ssh student@10.0.0.11 "chmod +x ~/scripts/*.sh"
 
 
@@ -105,6 +130,7 @@ ssh student@10.0.0.11 "chmod +x ~/scripts/*.sh"
 # Copy OpenStack Install Script Network
 ssh student@10.0.0.21 "mkdir scripts"
 scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.21:~/scripts
+scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.21:~/scripts
 scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.21:~/scripts
 scp ~/OpenStack/Scripts/kilo-6.*.network.sh  student@10.0.0.21:~/scripts
 ssh student@10.0.0.21 "chmod +x ~/scripts/*.sh"
@@ -113,9 +139,11 @@ ssh student@10.0.0.21 "chmod +x ~/scripts/*.sh"
 # Copy OpenStack Install Script Compute
 ssh student@10.0.0.31 "mkdir scripts"
 scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.31:~/scripts
+scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.31:~/scripts
 scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.31:~/scripts
 scp ~/OpenStack/Scripts/kilo-5.*.compute.sh  student@10.0.0.31:~/scripts
 scp ~/OpenStack/Scripts/kilo-6.*.compute.sh  student@10.0.0.31:~/scripts
+scp ~/OpenStack/Scripts/kilo-9.*.compute.sh  student@10.0.0.31:~/scripts
 ssh student@10.0.0.31 "chmod +x ~/scripts/*.sh"
 
 
@@ -123,9 +151,16 @@ ssh student@10.0.0.31 "chmod +x ~/scripts/*.sh"
 # Copy OpenStack Install Script Block1
 ssh student@10.0.0.41 "mkdir scripts"
 scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.41:~/scripts
+scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.41:~/scripts
 scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.41:~/scripts
 scp ~/OpenStack/Scripts/kilo-8.*.block1.sh  student@10.0.0.41:~/scripts
 ssh student@10.0.0.41 "chmod +x ~/scripts/*.sh"
 
-
-
+# ============================================================================================
+# Copy OpenStack Install Script Object1
+ssh student@10.0.0.51 "mkdir scripts"
+scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.51:~/scripts
+scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.51:~/scripts
+scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.51:~/scripts
+scp ~/OpenStack/Scripts/kilo-9.*.object1.sh  student@10.0.0.51:~/scripts
+ssh student@10.0.0.51 "chmod +x ~/scripts/*.sh"

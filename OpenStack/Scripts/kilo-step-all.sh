@@ -17,9 +17,9 @@
 
 # ============================================================================================
 # Init  VM 
-
+echo "[kilo-step-01.sh]===========================================================================>>START>>"
 ./kilo-step-01.sh
-
+echo "[kilo-step-01.sh]==============================================================================>>END>>"
 # ============================================================================================
 # Run Install
 
@@ -40,8 +40,9 @@
 # (2-2) Secure the database service including choosing a suitable password for the root account:
 # 2.8 Message queue
 # (1) To install the message queue service
+echo "[kilo-step-02.sh]===========================================================================>>START>>"
 ./kilo-step-02.sh
-
+echo "[kilo-step-02.sh]==============================================================================>>END>>"
 # ============================================================================================
 # 3. Add the Identity service
 # 3.1 Install and configure
@@ -57,7 +58,9 @@
 # (3) Regular (non-admin) tasks should use an unprivileged project and user. As an example, this guide creates the demo project and user.
 # 3.4 Verify operation
 # 3.5 Create OpenStack client environment scripts
+echo "[kilo-step-03.sh]===========================================================================>>START>>"
 ./kilo-step-03.sh
+echo "[kilo-step-03.sh]==============================================================================>>END>>"
 
 # ============================================================================================
 # 4. Add the Image service
@@ -77,7 +80,9 @@
 # (3) To finalize installation
 # 4.2 Verify operation
 # (1) In each client environment script, configure the Image service client to use API version 2.0:
+echo "[kilo-step-04.sh]===========================================================================>>START>>"
 ./kilo-step-04.sh
+echo "[kilo-step-04.sh]==============================================================================>>END>>"
 
 # ============================================================================================
 # 5. Add the Compute service
@@ -93,7 +98,9 @@
 # # (1) To install and configure the Compute hypervisor components
 # # (2) To finalize installation
 # # 5.3 Verify operation
+echo "[kilo-step-05.sh]===========================================================================>>START>>"
 ./kilo-step-05.sh
+echo "[kilo-step-05.sh]==============================================================================>>END>>"
 
 # ============================================================================================
 # 6 Add a networking component
@@ -109,8 +116,9 @@
 # 6.2.2 Configure compute node
 # 6.2.3 Create initial network
 # 6.3 Next steps
+echo "[kilo-step-06.sh]===========================================================================>>START>>"
 ./kilo-step-06.sh
-
+echo "[kilo-step-06.sh]==============================================================================>>END>>"
 # ============================================================================================
 # 7 Add the dashboard
 # 7.1 System requirements
@@ -120,8 +128,9 @@
 # (3) To finalize installation
 # 7.3 Verify operation
 # 7.4 Next steps
+echo "[kilo-step-07.sh]===========================================================================>>START>>"
 ./kilo-step-07.sh
-
+echo "[kilo-step-07.sh]==============================================================================>>END>>"
 
 # ============================================================================================
 # ======================================================================================================
@@ -130,4 +139,24 @@
 # 8.2 Install and configure a storage node
 # 8.3 Verify operation
 # 8.4 Next steps
+echo "[kilo-step-08.sh]===========================================================================>>START>>"
 ./kilo-step-08.sh
+echo "[kilo-step-08.sh]==============================================================================>>END>>"
+
+
+# ============================================================================================
+# 9. Add Object Storage
+# 9.1 Install and configure the controller node
+# 9.2 Install and configure the storage nodes
+# 9.3 Create initial rings
+# 9.4 Finalize installation
+# 9.5 Verify operation
+echo "[kilo-step-09.sh]===========================================================================>>START>>"
+./kilo-step-09.sh
+echo "[kilo-step-09.sh]==============================================================================>>END>>"
+
+
+
+
+
+

@@ -15,6 +15,8 @@
 # Set environment and declare global variables
 # ============================================================================================
 
+# Load Env global variables
+. ./kilo-perform-vars.common.sh
 
 # ============================================================================================
 # Run Install
@@ -26,24 +28,37 @@
 # 2.4 Networking (NOP)
 # 2.5 Network Time Protocol (NTP) (NOP)
 # 
-# 2.6 OpenStack packages & 필요 Package 설치
-ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
-ssh root@10.0.0.21 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
-ssh root@10.0.0.31 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
-ssh root@10.0.0.41 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+
+echo "[CALL kilo-0.0.all.sh]================================================================"
+if [ "$CODETREE_USE_LOCAL_REPOSITORY" = "0" ];
+then
+	# 2.6 OpenStack packages & 필요 Package 설치
+	ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+	ssh root@10.0.0.21 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+	ssh root@10.0.0.31 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+	ssh root@10.0.0.41 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+	ssh root@10.0.0.51 "cd ~student/scripts/; ~student/scripts/kilo-0.0.all.sh"
+else
+	# 2.6 OpenStack packages & 필요 Package 설치
+	ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-0.1.all.sh"
+	ssh root@10.0.0.21 "cd ~student/scripts/; ~student/scripts/kilo-0.1.all.sh"
+	ssh root@10.0.0.31 "cd ~student/scripts/; ~student/scripts/kilo-0.1.all.sh"
+	ssh root@10.0.0.41 "cd ~student/scripts/; ~student/scripts/kilo-0.1.all.sh"
+	ssh root@10.0.0.51 "cd ~student/scripts/; ~student/scripts/kilo-0.1.all.sh"
+fi
+
 # 2.7 SQL database
 #(1) To install and configure the database server
 # (1-1) Install the packages:
 # (1-2) Create and edit the /etc/my.cnf.d/mariadb_openstack.cnf file and complete the following actions:
 # (2) To finalize installation
 # (2-1) Start the database service and configure it to start when the system boots:
+echo "[CALL kilo-2.7.1.controller.sh]======================================================"
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-2.7.1.controller.sh"
 # (2-2) Secure the database service including choosing a suitable password for the root account:
+echo "[CALL kilo-2.7.2.controller.sh]======================================================"
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-2.7.2.controller.sh"
 # 2.8 Message queue
 # (1) To install the message queue service
+echo "[CALL kilo-2.8.1.controller.sh]======================================================"
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-2.8.1.controller.sh"
-
-
-
-

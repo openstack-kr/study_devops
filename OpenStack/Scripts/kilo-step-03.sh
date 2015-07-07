@@ -22,18 +22,23 @@
 # (1) To configure prerequisites
 # Create the keystone database:
 # Grant proper access to the keystone database:
+echo "[CALL kilo-3.1.1.controller.sh]======================================================"
 ssh student@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-3.1.1.controller.sh"
 # (2) To install and configure the Identity service components
 # (3) To configure the Apache HTTP server
 # (4) To finalize installation
+echo "[CALL kilo-3.1.2-4.controller.sh]===================================================="
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-3.1.2-4.controller.sh"
 # 3.2 Create the service entity and API endpoint
 # (1) To configure prerequisites
 # (2) To create the service entity and API endpoint
 # (3) Regular (non-admin) tasks should use an unprivileged project and user. As an example, this guide creates the demo project and user.
+
+echo "[CALL kilo-3.2-3.controller.sh]======================================================"
 ssh student@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-3.2-3.controller.sh"
 # 3.4 Verify operation
+echo "[CALL kilo-3.4.controller.sh]======================================================="
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-3.4.controller.sh"
 # 3.5 Create OpenStack client environment scripts
+echo "[CALL kilo-3.5.controller.sh]========================================================"
 ssh student@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-3.5.controller.sh"
-

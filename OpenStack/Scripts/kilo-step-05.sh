@@ -20,21 +20,26 @@
 # 5.1 Install and configure controller node
 # (1) To configure prerequisites
 # (1-1) To create the database, complete these steps:
+echo "[CALL scripts/kilo-5.1.1-1.controller.sh]=========================================="
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-5.1.1-1.controller.sh"
 # (1-2) Source the admin credentials to gain access to admin-only CLI commands:
 # (1-3) To create the service credentials, complete these steps:
 # (1-4) Create the Compute service API endpoint:
+echo "[CALL scripts/kilo-5.1.1-2-4.controller.sh]=========================================="
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-5.1.1-2-4.controller.sh"
 # (2) To install and configure Compute controller components
 # (3) To finalize installation
+echo "[CALL scripts/kilo-5.1.2-3.controller.sh]=========================================="
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-5.1.2-3.controller.sh"
 
 # # 5.2 Install and configure a compute node
 # # (1) To install and configure the Compute hypervisor components
 # # (2) To finalize installation
+echo "[CALL scripts/kilo-5.2.1-2.compute.sh]=========================================="
 ssh root@10.0.0.31 "cd ~student/scripts/; ~student/scripts/kilo-5.2.1-2.compute.sh"
 
 # # 5.3 Verify operation
+echo "[CALL scripts/kilo-5.3.1-4.controller.sh]=========================================="
 ssh student@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-5.3.1-4.controller.sh"
 
 

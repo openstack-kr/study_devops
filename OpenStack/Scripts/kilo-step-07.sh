@@ -22,6 +22,7 @@
 # (1) To install the dashboard components
 # (2) To configure the dashboard
 # (3) To finalize installation
+echo "[CALL scripts/kilo-7.2_4.controller.sh]============================================"
 ssh root@10.0.0.11 "cd ~student/scripts/; ~student/scripts/kilo-7.2_4.controller.sh"
 
 # 7.3 Verify operation
