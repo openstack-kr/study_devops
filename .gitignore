@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io
 
+# VirtualBox ova files
+*.ova
+
 ### OSX ###
 .DS_Store
 .AppleDouble
