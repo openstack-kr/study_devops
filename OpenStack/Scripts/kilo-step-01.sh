@@ -15,8 +15,13 @@
 # 
 # Set environment and declare global variables
 # ============================================================================================
-BASE_SCRIPT_DIR=~/OpenStack/Scripts
-cd $BASE_SCRIPT_DIR
+
+# BASE_DIR: base directory for our scripts and VMs
+BASE_DIR=~/OpenStack
+BASE_DIR_SCRIPT=$BASE_DIR/Scripts
+BASE_DIR_VM=$BASE_DIR/OpenStack_VM
+BASE_DIR_VM_WIN=`echo $BASE_DIR_VM | awk -F/ '{print $NF}'`
+cd $BASE_DIR_SCRIPT
 
 # ============================================================================================
 # Init Controller VM 
@@ -41,11 +46,19 @@ VBoxManage unregistervm cent7-object1 --delete
 
 # ============================================================================================
 # VirtualBox 저장 파일 Import 
-VBoxManage import ../OpenStack_VM/cent7-controller.ova
-VBoxManage import ../OpenStack_VM/cent7-network.ova
-VBoxManage import ../OpenStack_VM/cent7-compute.ova
-VBoxManage import ../OpenStack_VM/cent7-block1.ova
-VBoxManage import ../OpenStack_VM/cent7-object1.ova
+if [ "$OS_TYPE_LEFT" = "CYGWIN" ]; then
+  VBoxManage import ../$BASE_DIR_VM_WIN/cent7-controller.ova
+  VBoxManage import ../$BASE_DIR_VM_WIN/cent7-network.ova
+  VBoxManage import ../$BASE_DIR_VM_WIN/cent7-compute.ova
+  VBoxManage import ../$BASE_DIR_VM_WIN/cent7-block1.ova
+  VBoxManage import ../$BASE_DIR_VM_WIN/cent7-object1.ova
+else
+  VBoxManage import $BASE_DIR_VM/cent7-controller.ova
+  VBoxManage import $BASE_DIR_VM/cent7-network.ova
+  VBoxManage import $BASE_DIR_VM/cent7-compute.ova
+  VBoxManage import $BASE_DIR_VM/cent7-block1.ova
+  VBoxManage import $BASE_DIR_VM/cent7-object1.ova
+fi
 
 # ============================================================================================
 # Host-only network mapping
@@ -194,17 +207,17 @@ ssh root@10.0.0.51 "hostnamectl set-hostname object1"
 # ============================================================================================
 # Copy OpenStack Install Script Controller
 ssh student@10.0.0.11 "mkdir scripts"
-scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-2.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-3.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-4.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-5.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-6.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-7.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-8.*.controller.sh  student@10.0.0.11:~/scripts
-scp ~/OpenStack/Scripts/kilo-9.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.0.all.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.1.all.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-perform-vars.common.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-2.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-3.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-4.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-5.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-6.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-7.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-8.*.controller.sh  student@10.0.0.11:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-9.*.controller.sh  student@10.0.0.11:~/scripts
 ssh student@10.0.0.11 "chmod +x ~/scripts/*.sh"
 
 
@@ -212,38 +225,38 @@ ssh student@10.0.0.11 "chmod +x ~/scripts/*.sh"
 # ============================================================================================
 # Copy OpenStack Install Script Network
 ssh student@10.0.0.21 "mkdir scripts"
-scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.21:~/scripts
-scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.21:~/scripts
-scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.21:~/scripts
-scp ~/OpenStack/Scripts/kilo-6.*.network.sh  student@10.0.0.21:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.0.all.sh  student@10.0.0.21:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.1.all.sh  student@10.0.0.21:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-perform-vars.common.sh  student@10.0.0.21:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-6.*.network.sh  student@10.0.0.21:~/scripts
 ssh student@10.0.0.21 "chmod +x ~/scripts/*.sh"
 
 # ============================================================================================
 # Copy OpenStack Install Script Compute
 ssh student@10.0.0.31 "mkdir scripts"
-scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.31:~/scripts
-scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.31:~/scripts
-scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.31:~/scripts
-scp ~/OpenStack/Scripts/kilo-5.*.compute.sh  student@10.0.0.31:~/scripts
-scp ~/OpenStack/Scripts/kilo-6.*.compute.sh  student@10.0.0.31:~/scripts
-scp ~/OpenStack/Scripts/kilo-9.*.compute.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.0.all.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.1.all.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-perform-vars.common.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-5.*.compute.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-6.*.compute.sh  student@10.0.0.31:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-9.*.compute.sh  student@10.0.0.31:~/scripts
 ssh student@10.0.0.31 "chmod +x ~/scripts/*.sh"
 
 
 # ============================================================================================
 # Copy OpenStack Install Script Block1
 ssh student@10.0.0.41 "mkdir scripts"
-scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.41:~/scripts
-scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.41:~/scripts
-scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.41:~/scripts
-scp ~/OpenStack/Scripts/kilo-8.*.block1.sh  student@10.0.0.41:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.0.all.sh  student@10.0.0.41:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.1.all.sh  student@10.0.0.41:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-perform-vars.common.sh  student@10.0.0.41:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-8.*.block1.sh  student@10.0.0.41:~/scripts
 ssh student@10.0.0.41 "chmod +x ~/scripts/*.sh"
 
 # ============================================================================================
 # Copy OpenStack Install Script Object1
 ssh student@10.0.0.51 "mkdir scripts"
-scp ~/OpenStack/Scripts/kilo-0.0.all.sh  student@10.0.0.51:~/scripts
-scp ~/OpenStack/Scripts/kilo-0.1.all.sh  student@10.0.0.51:~/scripts
-scp ~/OpenStack/Scripts/kilo-perform-vars.common.sh  student@10.0.0.51:~/scripts
-scp ~/OpenStack/Scripts/kilo-9.*.object1.sh  student@10.0.0.51:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.0.all.sh  student@10.0.0.51:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-0.1.all.sh  student@10.0.0.51:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-perform-vars.common.sh  student@10.0.0.51:~/scripts
+scp $BASE_DIR_SCRIPT/kilo-9.*.object1.sh  student@10.0.0.51:~/scripts
 ssh student@10.0.0.51 "chmod +x ~/scripts/*.sh"
