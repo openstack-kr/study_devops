@@ -2,7 +2,7 @@
 
 * CodeTree 님께서 정리하신 OpenStack Kilo 설치 스크립트 파일
 * First upload : 2015-06-24
-* Last updated : 2015-07-08
+* Last updated : 2015-07-13
 
 *******************************************************
 
@@ -32,18 +32,18 @@
 
 ## VirtualBox Host Network
 
-| Network name   | AP Address   |
-| -------------- | ------------ |
-| Host Network 0 | 203.0.113.1  |
-| Host Network 1 | 10.0.0.1     |
-| Host Network 2 | 10.0.1.1     |
-| Host Network 7 | 10.0.4.1 (*) |
-| Host Network 3 | 88.11.11.1   |
-| Host Network 4 | 88.22.22.1   |
-| Host Network 5 | 88.33.33.1   |
-| Host Network 6 | 192.168.62.1 |
+| Network name   | IP Address      |
+| -------------- | --------------- |
+| Host Network 0 | 203.0.113.0/24  |
+| Host Network 1 | 10.0.0.0/24     |
+| Host Network 2 | 10.0.1.0/24     |
+| Host Network 7 | 10.0.4.0/24 (*) |
+| Host Network 3 | 88.11.11.0/24   |
+| Host Network 4 | 88.22.22.0/24   |
+| Host Network 5 | 88.33.33.0/24   |
+| Host Network 6 | 192.168.62.0/24 |
 
-`*` : 10.0.2.1 Network의 경우  VirtualBox에서 NAT 용도로 예약 사용중
+`*` : 10.0.2.0/24 Network의 경우  VirtualBox에서 NAT 용도로 예약되어 10.0.4.0/24 대역으로 사용
 
 ## Node Configuration
 
@@ -54,14 +54,14 @@
 |                | enp0s3 |     enp0s8     |     enp0s9    |   enp0s10     |    enp0s8    | 
 |                |  NAT   |    External    |   Management  |    Tunnel     |    Storage   |
 +----------------+--------+----------------+---------------+---------------+--------------+
-| Controller     |  NAT   |                |  10.0.0.11/24 |               |              |
-| Network        |  NAT   |  Unnumbered    |  10.0.0.21/24 |  10.0.1.21/24 |              | 
-| Compute1       |  NAT   |                |  10.0.0.31/24 |  10.0.1.31/24 | 10.0.4.31/24 |
-| Block Storage1 |  NAT   |                |  10.0.0.41/24 |               | 10.0.4.41/24 |
-| Object Storage1|  NAT   |                |  10.0.0.51/24 |               | 10.0.4.51/24 |
+| Controller     |  NAT   |                |   10.0.0.11   |               |              |
+| Network        |  NAT   |  Unnumbered    |   10.0.0.21   |   10.0.1.21   |              | 
+| Compute1       |  NAT   |                |   10.0.0.31   |   10.0.1.31   |  10.0.4.31   |
+| Block Storage1 |  NAT   |                |   10.0.0.41   |               |  10.0.4.41   |
+| Object Storage1|  NAT   |                |   10.0.0.51   |               |  10.0.4.51   |
 +----------------+--------+----------------+---------------+---------------+--------------+
 | HOST           |        | HOST Network0  | HOST Network1 | HOST Network2 |              |
-|                |        | 203.0.113.0/24 |  10.0.1.0/24  |  10.0.1.0/24  |              |
+|                |        | 203.0.113.0/24 |  10.0.0.0/24  |  10.0.1.0/24  |              |
 +----------------+--------+----------------+---------------+---------------+--------------+
 ```
 
