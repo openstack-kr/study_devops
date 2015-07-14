@@ -16,6 +16,9 @@
 # Set environment and declare global variables
 # ============================================================================================
 
+# OS_TYPE_LEFT: 'CYGWIN' for Windows, 'Darwin' for Mac, 'Linux' for Linux
+OS_TYPE_LEFT=`uname -s | cut -c1-6`
+
 # BASE_DIR: base directory for our scripts and VMs
 BASE_DIR=~/OpenStack
 BASE_DIR_SCRIPT=$BASE_DIR/Scripts
@@ -63,7 +66,6 @@ fi
 # ============================================================================================
 # Host-only network mapping
 # Made by @ianychoi
-OS_TYPE_LEFT=`uname -s | cut -c1-6`
 if [ "$OS_TYPE_LEFT" = "CYGWIN" ]; then
   VBOX_NET_IF_NAME_PATTERN='VirtualBox Host-Only Ethernet Adapter #[0-9]'
 else
