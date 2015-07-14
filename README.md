@@ -13,6 +13,7 @@
     * [Node Configuration](#node-configuration)
     * [Node Specification](#node-specification)
 * [Script](#script)
+    * [Pre-requisites](#pre-requisites)
     * [Start Script](#start-script)
     * [Install Script](#install-script)
 
@@ -84,6 +85,19 @@
 
 # Script
 
+## Pre-requisites
+
+* 쉘 스크립트 (Bash) 실행 환경 필요
+  * For Windows, Cygwin (http://cygwin.org/) is recommended. 
+* SSH 공개키
+  * If you do not have it, please execute: ssh-keygen -t rsa
+* 스크립트/VM 위치 디렉토리 설정
+  * This script assumes that your script directory is: ~/OpenStack/Scripts
+  * And VM directory is: ~/OpenStack/OpenStack_VM
+  * 'script' and 'VM' directories should be the same directory level.
+  * You can use symbolic links to arrange your directory locations if your locations are different.
+  * Or you can change BASE_DIR related variables in kilo-step-01.sh
+ 
 ## Start Script 
 
 * `OpenStack/Scripts/kilo-step-all.sh`
