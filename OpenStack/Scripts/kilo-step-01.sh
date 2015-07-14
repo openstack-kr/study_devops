@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Werite by: Jeon.sungwook 
+# Written by: Jeon.sungwook 
 # Create Date : 2015-06-02
 # Update Date : 2015-06-02
 #
@@ -15,6 +15,8 @@
 # 
 # Set environment and declare global variables
 # ============================================================================================
+BASE_SCRIPT_DIR=~/OpenStack/Scripts
+cd $BASE_SCRIPT_DIR
 
 # ============================================================================================
 # Init Controller VM 
@@ -33,33 +35,39 @@ VBoxManage unregistervm cent7-compute --delete
 VBoxManage controlvm cent7-block1 poweroff
 VBoxManage unregistervm cent7-block1 --delete
 
-
-# Init Block1 VM 
+# Init Object1 VM 
 VBoxManage controlvm cent7-object1 poweroff
 VBoxManage unregistervm cent7-object1 --delete
 
 # ============================================================================================
 # VirtualBox 저장 파일 Import 
-VBoxManage import ~/OpenStack/OpenStack_VM/cent7-controller.ova
-VBoxManage import ~/OpenStack/OpenStack_VM/cent7-network.ova
-VBoxManage import ~/OpenStack/OpenStack_VM/cent7-compute.ova
-VBoxManage import ~/OpenStack/OpenStack_VM/cent7-block1.ova
-VBoxManage import ~/OpenStack/OpenStack_VM/cent7-object1.ova
+VBoxManage import ../OpenStack_VM/cent7-controller.ova
+VBoxManage import ../OpenStack_VM/cent7-network.ova
+VBoxManage import ../OpenStack_VM/cent7-compute.ova
+VBoxManage import ../OpenStack_VM/cent7-block1.ova
+VBoxManage import ../OpenStack_VM/cent7-object1.ova
 
 # ============================================================================================
-# hostonly netwotk mapping
-# Make by @ianychoi
+# Host-only network mapping
+# Made by @ianychoi
+OS_TYPE_LEFT=`uname -s | cut -c1-6`
+if [ "$OS_TYPE_LEFT" = "CYGWIN" ]; then
+  VBOX_NET_IF_NAME_PATTERN='VirtualBox Host-Only Ethernet Adapter #[0-9]'
+else
+  VBOX_NET_IF_NAME_PATTERN='vboxnet[0-9]'
+fi
+
 # Function
 function check_vboxnet()
 {
-	IS_NETWORK=`echo $VBOXMANAGE_LIST_VBOXNET_IP | tr ' ' '\n' | grep "$1" | awk -F: '{print $1}'`
+	IS_NETWORK=`echo $VBOXMANAGE_LIST_VBOXNET_IP | tr ',' '\n' | grep "$1" | awk -F: '{print $1}'`
 
 	if [ -z $IS_NETWORK ]
 	then
-		TARGET_VBOXNET_NAME=`VBoxManage hostonlyif create | egrep -o 'vboxnet[0-9]+'`
-		VBoxManage hostonlyif ipconfig $TARGET_VBOXNET_NAME --ip $1
+		TARGET_VBOXNET_NAME=`VBoxManage hostonlyif create | egrep -o "${VBOX_NET_IF_NAME_PATTERN}+"`
+		VBoxManage hostonlyif ipconfig "$TARGET_VBOXNET_NAME" --ip $1
 	else
-		TARGET_VBOXNET_NAME=`echo $VBOXMANAGE_LIST_VBOXNET_NAME | tr ' ' '\n' | sed -n "${IS_NETWORK}p" | awk -F: '{print $2}'`
+		TARGET_VBOXNET_NAME=`echo $VBOXMANAGE_LIST_VBOXNET_NAME | tr ',' '\n' | sed -n "${IS_NETWORK}p" | awk -F: '{print $2}'`
 	fi
 	echo $TARGET_VBOXNET_NAME
 }
@@ -69,8 +77,8 @@ NETWORK_1ST_IP_MANAGEMENT="10.0.0.1"
 NETWORK_1ST_IP_TUNNEL="10.0.1.1"
 NETWORK_1ST_IP_STORAGE="10.0.4.1"
 
-VBOXMANAGE_LIST_VBOXNET_NAME=`VBoxManage list hostonlyifs | egrep -o 'Name:[ ]*vboxnet[0-9]*' | awk '{print NR":"$2}'`
-VBOXMANAGE_LIST_VBOXNET_IP=`VBoxManage list hostonlyifs | egrep -o 'IPAddress:[ ]*[0-9]*.[0-9]*.[0-9]*.[0-9]*' | awk '{print NR":"$2}'`
+VBOXMANAGE_LIST_VBOXNET_NAME=`VBoxManage list hostonlyifs | egrep -o "Name:[ ]*${VBOX_NET_IF_NAME_PATTERN}*" | awk -F: '{gsub(/^[ \t]+/,"",$2); print NR":"$2","}'`
+VBOXMANAGE_LIST_VBOXNET_IP=`VBoxManage list hostonlyifs | egrep -o 'IPAddress:[ ]*[0-9]*.[0-9]*.[0-9]*.[0-9]*' | awk '{print NR":"$2","}'`
 
 
 VBOXNET_NAME_EXTERNAL=$(check_vboxnet $NETWORK_1ST_IP_EXTERNAL)
@@ -78,17 +86,21 @@ VBOXNET_NAME_MANAGEMENT=$(check_vboxnet $NETWORK_1ST_IP_MANAGEMENT)
 VBOXNET_NAME_TUNNEL=$(check_vboxnet $NETWORK_1ST_IP_TUNNEL)
 VBOXNET_NAME_STORAGE=$(check_vboxnet $NETWORK_1ST_IP_STORAGE)
 
-VBoxManage modifyvm cent7-controller --hostonlyadapter3 $VBOXNET_NAME_MANAGEMENT
+VBoxManage modifyvm cent7-controller --hostonlyadapter2 "$VBOXNET_NAME_EXTERNAL"
+VBoxManage modifyvm cent7-controller --hostonlyadapter3 "$VBOXNET_NAME_MANAGEMENT"
 
-VBoxManage modifyvm cent7-network --hostonlyadapter2 $VBOXNET_NAME_EXTERNAL
-VBoxManage modifyvm cent7-network --hostonlyadapter3 $VBOXNET_NAME_MANAGEMENT
-VBoxManage modifyvm cent7-network --hostonlyadapter4 $VBOXNET_NAME_TUNNEL
+VBoxManage modifyvm cent7-network --hostonlyadapter2 "$VBOXNET_NAME_EXTERNAL"
+VBoxManage modifyvm cent7-network --hostonlyadapter3 "$VBOXNET_NAME_MANAGEMENT"
+VBoxManage modifyvm cent7-network --hostonlyadapter4 "$VBOXNET_NAME_TUNNEL"
 
-VBoxManage modifyvm cent7-compute --hostonlyadapter3 $VBOXNET_NAME_MANAGEMENT
-VBoxManage modifyvm cent7-compute --hostonlyadapter4 $VBOXNET_NAME_TUNNEL
+VBoxManage modifyvm cent7-compute --hostonlyadapter3 "$VBOXNET_NAME_MANAGEMENT"
+VBoxManage modifyvm cent7-compute --hostonlyadapter4 "$VBOXNET_NAME_TUNNEL"
 
-VBoxManage modifyvm cent7-block1 --hostonlyadapter2 $VBOXNET_NAME_STORAGE
-VBoxManage modifyvm cent7-block1 --hostonlyadapter3 $VBOXNET_NAME_MANAGEMENT
+VBoxManage modifyvm cent7-block1 --hostonlyadapter2 "$VBOXNET_NAME_STORAGE"
+VBoxManage modifyvm cent7-block1 --hostonlyadapter3 "$VBOXNET_NAME_MANAGEMENT"
+
+VBoxManage modifyvm cent7-object1 --hostonlyadapter2 "$VBOXNET_NAME_STORAGE"
+VBoxManage modifyvm cent7-object1 --hostonlyadapter3 "$VBOXNET_NAME_MANAGEMENT"
 
 # ============================================================================================
 # Run VM controller, network, compute
@@ -106,9 +118,33 @@ vboxmanage startvm cent7-object1 --type headless
 
 
 
+if [ "$OS_TYPE_LEFT" = "CYGWIN" ]; then
+
+while ! ping -n 1 10.0.0.11 &>/dev/null; do :; done
+echo "== Controller node etwork is okay =="
+sleep 1
+
+while ! ping -n 1 10.0.0.21 &>/dev/null; do :; done
+echo "== Network node network is okay =="
+sleep 1
+
+while ! ping -n 1 10.0.0.31 &>/dev/null; do :; done
+echo "== Compute node network is okay =="
+sleep 1
+
+while ! ping -n 1 10.0.0.41 &>/dev/null; do :; done
+echo "== Block storage node network is okay =="
+sleep 1
+
+while ! ping -n 1 10.0.0.51 &>/dev/null; do :; done
+echo "== Object storage node network is okay =="
+sleep 1
+
+else
 # ============================================================================================
 # Controller server ssh password 생략
 # Server가 살아 날때 까지 대기
+
 while ! ping -c1 10.0.0.11 &>/dev/null; do :; done
 sleep 1
 
@@ -134,6 +170,8 @@ sleep 1
 # Server가 살아 날때 까지 대기
 while ! ping -c1 10.0.0.51 &>/dev/null; do :; done
 sleep 1
+
+fi
 
 
 ssh-copy-id student@10.0.0.11
