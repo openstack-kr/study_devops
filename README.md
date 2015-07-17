@@ -108,7 +108,7 @@
     - [`OpenStack/Scripts/kilo-step-01.sh`](OpenStack/Scripts/kilo-step-01.sh)
     - [`OpenStack/Scripts/kilo-step-02.sh`](OpenStack/Scripts/kilo-step-02.sh)
         + [`kilo-perform-vars.common.sh`](OpenStack/Scripts/kilo-perform-vars.common.sh)
-        + if `LOCAL_REPOSITORY = 0`
+        + if `CODETREE_USE_LOCAL_REPOSITORY = 0`
             - [`kilo-0.0.all.sh`](OpenStack/Scripts/kilo-0.0.all.sh)
         + else 
             - [`kilo-0.1.all.sh`](OpenStack/Scripts/kilo-0.1.all.sh)
