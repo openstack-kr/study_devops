@@ -42,7 +42,7 @@ echo '2.6.2 ===============> yum -y install  http://http://10.0.0.100/repos/open
 yum -y install  http://http://10.0.0.100/repos/openstack-kilo/openstack-kilo/rdo-release-kilo-1.noarch.rpm
 # Out으로 /etc/yum.repo.d/rdo*.repo가 생긴다.
 
-# 이부분은 뱔도 모둘로 분리 필요
+# 이부분은 별도 모둘로 분리 필요
 # ======================================================================================================
 # Setting for Using CentOS7 Local Repository
 cd /etc/yum.repos.d
