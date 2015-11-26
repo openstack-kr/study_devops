@@ -36,7 +36,7 @@ echo "[CONTROLLER]===================================> start rabbitmq-server.ser
 # sleep 2
 
 # (2-2) Add the openstack user:
-RABBIT_PASS=pass_for_mq
+#RABBIT_PASS=pass_for_mq
 rabbitmqctl add_user openstack ${RABBIT_PASS}
 
 # (2-3) Permit configuration, write, and read access for the openstack user:
