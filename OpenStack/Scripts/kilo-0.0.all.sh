@@ -38,7 +38,7 @@ yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.
 
 # (2) To enable the OpenStack repository
 echo '2.6.2 ===============> yum -y install  http://rdo.fedorapeople.org/openstack-kilo/rdo-release-kilo-1.noarch.rpm'
-> yum -y install http://rdo.fedorapeople.org/openstack-kilo/rdo-release-kilo.rpm
+yum -y install http://rdo.fedorapeople.org/openstack-kilo/rdo-release-kilo.rpm
 
 
 
