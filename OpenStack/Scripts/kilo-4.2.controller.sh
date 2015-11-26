@@ -34,8 +34,8 @@ mkdir /tmp/images
 
 # (4) Download the source image into it:
 
-#wget -P /tmp/images http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-wget -P  /tmp/images http://10.0.0.100/cirros-cloud/0.3.4/cirros-0.3.4-x86_64-disk.img
+wget -P /tmp/images http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+#wget -P  /tmp/images http://10.0.0.100/cirros-cloud/0.3.4/cirros-0.3.4-x86_64-disk.img
 
 # (5) Upload the image to the Image service using the QCOW2 disk format, bare container format, and public visibility so all projects can access it:
 glance image-create --name "cirros-0.3.4-x86_64" --file /tmp/images/cirros-0.3.4-x86_64-disk.img \

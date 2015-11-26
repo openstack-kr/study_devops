@@ -80,7 +80,7 @@ crudini --set /etc/neutron/neutron.conf keystone_authtoken project_domain_id def
 crudini --set /etc/neutron/neutron.conf keystone_authtoken user_domain_id default
 crudini --set /etc/neutron/neutron.conf keystone_authtoken project_name service
 crudini --set /etc/neutron/neutron.conf keystone_authtoken username neutron
-crudini --set /etc/neutron/neutron.conf keystone_authtoken password #{NEUTRON_PASS}
+crudini --set /etc/neutron/neutron.conf keystone_authtoken password ${NEUTRON_PASS}
 
 # (4-1-4) IIn the [DEFAULT] section, enable the Modular Layer 2 (ML2) plug-in, router service, and overlapping IP addresses:
 # [DEFAULT]
